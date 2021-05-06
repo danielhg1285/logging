@@ -1,0 +1,52 @@
+version: "3"
+services:
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.2.0"
+    container_name: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "discovery.type=single-node"
+    expose:
+      - 9200
+    restart: "unless-stopped"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - kibana-net
+
+  fluentd:
+    image: fluentd-elasticsearch:v1.6-debian-1
+    container_name: fluentd
+    environment:
+      - ES_HOST=elasticsearch
+      - ES_PORT=9200
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    restart: "unless-stopped"
+    depends_on:
+      - elasticsearch
+    networks:
+      - kibana-net
+
+  kibana:
+    image: "docker.elastic.co/kibana/kibana:7.2.0"
+    container_name: kibana
+    restart: "unless-stopped"
+    expose:
+      - 5601
+    restart: "unless-stopped"
+    depends_on:
+      - elasticsearch
+    networks:
+      - kibana-net
+
+volumes:
+    elasticsearch_data:
+
+networks:
+  kibana-net:
+    external:
+      name: kibana-net_external

@@ -1,0 +1,35 @@
+<assembly>
+    <formats>
+        <format>tar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>fluentd</directory>
+            <outputDirectory>fluentd</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+            <excludes>
+                <exclude>**/*.formatted</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>scripts</directory>
+            <outputDirectory>.</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+            <excludes>
+                <exclude>**/*.formatted</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>docker-compose</directory>
+            <outputDirectory>.</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
+            <excludes>
+                <exclude>**/*.formatted</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+</assembly>
